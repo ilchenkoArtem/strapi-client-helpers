@@ -1,6 +1,6 @@
 import {Primitive} from 'type-fest';
 
-type StrapiAttributes = Record<string, Primitive | StrapiSingleResponse | StrapiListResponse>
+type StrapiAttributes = Record<string, Primitive | StrapiResponse>
 
 export const enum StrapiErrorResponseName {
   ApplicationError = 'ApplicationError',
@@ -30,11 +30,12 @@ export interface StrapiDataResponse<Attributes extends StrapiAttributes = Strapi
   attributes: Attributes;
 }
 
-export interface StrapiResponse<Data = any, Meta extends {} = StrapiMetaResponse> {
+export interface StrapiBaseResponse<Data = any, Meta extends {} = StrapiMetaResponse> {
   data: Data,
   meta: Meta
   error?: StrapiErrorResponse
 }
 
-export type StrapiSingleResponse = StrapiResponse<StrapiDataResponse, {}>
-export type StrapiListResponse = StrapiResponse<StrapiDataResponse[]>
+export type StrapiSingleResponse = StrapiBaseResponse<StrapiDataResponse, {}>
+export type StrapiListResponse = StrapiBaseResponse<StrapiDataResponse[]>
+export type StrapiResponse = StrapiSingleResponse | StrapiListResponse
